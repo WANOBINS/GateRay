@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 64358285207828550}
   m_Layer: 0
   m_Name: Emitter TurnCollider
-  m_TagString: TurnCollider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,10 +110,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4167609912541572}
   - component: {fileID: 65468274901425720}
-  - component: {fileID: 114366693014678378}
+  - component: {fileID: 114257464326119012}
   m_Layer: 9
   m_Name: Laser Emitter
-  m_TagString: Emitter
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,8 +155,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1812990473292930}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4507379966800694}
@@ -167,7 +167,7 @@ Transform:
   - {fileID: 4947716445510308}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4370384867442486
 Transform:
   m_ObjectHideFlags: 1
@@ -529,7 +529,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114366693014678378
+--- !u!114 &114257464326119012
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -537,7 +537,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1812990473292930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcdd06742d542024d862c39743a7b91d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0575d569602d8ed49a9a4c14dadaff49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!136 &136216089971970152

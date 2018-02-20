@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Valve.VR;
 
@@ -19,13 +21,25 @@ public class VRControl : MonoBehaviour
     private SteamVR_Controller.Device leftDevice;
     private SteamVR_Controller.Device rightDevice;
 
+    //Note: Turnables System only works for stationary turnables
+    private List<ITurnable> Turnables;
+
     #endregion Variables
 
     #region Methods
-    private GameObject GetNearestTurnable()
+    private Transform GetNearestTurnable(GameObject controllerObject)
     {
-        throw new NotImplementedException();
+        GameObject CurrentClosest = null;
+        foreach(ITurnable turnable in Turnables)
+        {
+            if(CurrentClosest == null || Vector3.Distance(controllerObject.transform.position, turnable.GetGameObject().transform.position) < Vector3.Distance(controllerObject.transform.position,CurrentClosest.transform.position))
+            {
+                CurrentClosest = turnable.GetGameObject();
+            }
+        }
+        return CurrentClosest.transform;
     }
+
     #endregion
 
     #region Unity Methods
@@ -33,6 +47,7 @@ public class VRControl : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        Debug.Log("Loading...");
         GameObject CamRig = GameObject.Find("[CameraRig]");
         SteamVR_ControllerManager ControllerManager = CamRig.GetComponent<SteamVR_ControllerManager>();
         leftObject = ControllerManager.left;
@@ -40,6 +55,18 @@ public class VRControl : MonoBehaviour
 
         leftTrackedObject = leftObject.GetComponent<SteamVR_TrackedObject>();
         rightTrackedObject = rightObject.GetComponent<SteamVR_TrackedObject>();
+
+        Turnables = new List<ITurnable>();
+
+        foreach(GameObject go in FindObjectsOfType<GameObject>())
+        {
+            if(go.GetComponent<ITurnable>() != null)
+            {
+                Debug.Log("Adding " + go.name + " to list of turnables");
+                Turnables.Add(go.GetComponent<ITurnable>());
+            }
+        }
+        Debug.Log("Loaded!");
     }
 
     // Update is called once per frame
@@ -48,7 +75,14 @@ public class VRControl : MonoBehaviour
         leftDevice = SteamVR_Controller.Input((int)leftTrackedObject.index);
         rightDevice = SteamVR_Controller.Input((int)rightTrackedObject.index);
 
-        if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position,GetNearestTurnable().transform.position) <= activationDistance)
+        Transform LNearest = GetNearestTurnable(leftObject);
+        if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position,LNearest.position) <= activationDistance)
+        {
+
+        }
+
+        Transform RTurnable = GetNearestTurnable(rightObject);
+        if(rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position,RTurnable.position) <= activationDistance)
         {
 
         }

@@ -38,10 +38,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4714120830006286}
   - component: {fileID: 65297768850510894}
-  - component: {fileID: 114439420273667008}
+  - component: {fileID: 114357325068711456}
   m_Layer: 10
   m_Name: Mirror
-  m_TagString: Mirror
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,8 +58,8 @@ GameObject:
   - component: {fileID: 23689282055198336}
   - component: {fileID: 64923546254151396}
   m_Layer: 0
-  m_Name: TurnCollider
-  m_TagString: TurnCollider
+  m_Name: Mirror TurnCollider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -240,6 +240,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -255,6 +256,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -272,6 +274,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -287,6 +290,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -304,6 +308,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -319,6 +324,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -336,6 +342,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -351,6 +358,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -368,6 +376,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -383,6 +392,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -544,7 +554,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114439420273667008
+--- !u!114 &114357325068711456
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -552,24 +562,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1490317214402082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c546374276550cd47a6553406e2f04c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b51bb0aa7c43704fae65508b14ad947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsEndGoal: 0
-  DestroyOnLasered: 0
-  Lasered: 0
-  LaseringObject: {fileID: 0}
-  HeightTweak: 1.1316
-  AngleTweak: 0
-  IsLaserSource: 0
-  IsLaserActive: 0
-  LaseredObject: {fileID: 0}
-  LaseredReflector: {fileID: 0}
-  ReflectionCenter: {x: 0, y: 0, z: 0}
-  IncomingLaserDirection: {x: 0, y: 0, z: 0, w: 0}
-  IncomingLaserDirectionV3: {x: 0, y: 0, z: 0}
-  OutgoingLaserDirection: {x: 0, y: 0, z: 0, w: 0}
-  OutgoingLaserDirectionV3: {x: 0, y: 0, z: 0}
-  HalfAngle: 0
-  FullAngle: 0
-  MaxAngle: Infinity

@@ -4,12 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Laser
-  - Emitter
-  - Mirror
   - Level
-  - TurnCollider
-  - RecieverOrb
   layers:
   - Default
   - TransparentFX

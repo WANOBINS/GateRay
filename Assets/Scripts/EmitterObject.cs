@@ -1,8 +1,10 @@
-﻿public class EmitterObject : LaserEmittingObject, ITurnable
+﻿using UnityEngine;
+
+public class EmitterObject : LaserEmittingObject, ITurnable
 {
     #region Variables
 
-    private bool laserActive = false;
+    //private bool laserActive = false;
 
     #endregion Variables
 
@@ -16,6 +18,11 @@
     public void TurnRight()
     {
         transform.Rotate(transform.up, 12.5f);
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 
     #endregion Methods
