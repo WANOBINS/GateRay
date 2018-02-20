@@ -4,28 +4,87 @@ using UnityEngine;
 
 public class LaserManager : MonoBehaviour
 {
-    public class ManagedLaser
-    {
-        private Transform laser;
-        private bool active;
-    }
+    #region Variables
 
-    public Transform laserTemplate;
+    public static Transform laserTemplate;
+
+    private EmitterObject emitter;
     private List<ManagedLaser> laserList;
+
+    #endregion Variables
+
+    #region Methods
+    public ManagedLaser RequestLaser()
+    {
+        for(int i = 0; i < laserList.Count; i++)
+        {
+            if (!laserList[i].inUse)
+            {
+                laserList[i].inUse = true;
+                return laserList[i];
+            }
+        }
+        ManagedLaser output = new ManagedLaser
+        {
+            inUse = true
+        };
+        laserList.Add(output);
+        return output;
+    }
+    #endregion Methods
+
+    #region Unity Methods
 
     // Use this for initialization
     private void Start()
     {
-        laserTemplate = Resources.Load<Transform>("/Prefabs/Laser");
+        laserTemplate = Resources.Load<Transform>("Prefabs/Laser");
         if (!laserTemplate)
         {
             throw new NullReferenceException("laserTemplate is not set");
         }
-        laserList = new List<ManagedLaser>(FindObjectsOfType<LaserEmittingObject>().Length);
+        laserList = new List<ManagedLaser>(FindObjectsOfType<LaserEmittingObject>().Length * 2);
+        emitter = FindObjectOfType<EmitterObject>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        foreach(ManagedLaser laser in laserList)
+        {
+            laser.Active = false;
+            laser.inUse = false;
+        }
+        emitter.Fire();
+    }
+
+    #endregion Unity Methods
+
+    public class ManagedLaser
+    {
+        public Transform laser;
+        private bool active;
+        public bool inUse;
+
+        public bool Active
+        {
+            get
+            {
+                active = laser.gameObject.activeSelf;
+                return active;
+            }
+
+            set
+            {
+                laser.gameObject.SetActive(value);
+                active = value;
+            }
+        }
+
+        public ManagedLaser()
+        {
+            laser = Instantiate(laserTemplate);
+            active = false;
+        }
     }
 }
