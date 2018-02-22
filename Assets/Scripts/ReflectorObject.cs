@@ -24,7 +24,7 @@ public class ReflectorObject : LaserEmittingObject, ILaserableObject, ITurnable
         }
         else
         {
-            Laser.laser.localScale = new Vector3(1, 1, Mathf.Infinity);
+            Laser.laser.localScale = new Vector3(1, 1, 100);
         }
     }
 
