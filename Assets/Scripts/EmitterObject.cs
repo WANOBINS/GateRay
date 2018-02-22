@@ -12,21 +12,6 @@ public class EmitterObject : LaserEmittingObject, ITurnable
 
     #region Methods
 
-    public void TurnLeft()
-    {
-        transform.Rotate(transform.up, -12.5f);
-    }
-
-    public void TurnRight()
-    {
-        transform.Rotate(transform.up, 12.5f);
-    }
-
-    public GameObject GetGameObject()
-    {
-        return gameObject;
-    }
-
     internal void Fire()
     {
         LaserManager.ManagedLaser Laser = LaserManager.RequestLaser();

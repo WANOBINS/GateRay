@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class ReflectorObject : LaserEmittingObject, ILaserableObject, ITurnable
 {
     #region Methods
@@ -25,21 +26,6 @@ public class ReflectorObject : LaserEmittingObject, ILaserableObject, ITurnable
         {
             Laser.laser.localScale = new Vector3(1, 1, Mathf.Infinity);
         }
-    }
-
-    public void TurnLeft()
-    {
-        transform.Rotate(transform.up, -12.5f);
-    }
-
-    public void TurnRight()
-    {
-        transform.Rotate(transform.up, 12.5f);
-    }
-
-    public GameObject GetGameObject()
-    {
-        return gameObject;
     }
 
     #endregion Methods

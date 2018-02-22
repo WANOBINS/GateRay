@@ -72,19 +72,26 @@ public class VRControl : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        leftDevice = SteamVR_Controller.Input((int)leftTrackedObject.index);
-        rightDevice = SteamVR_Controller.Input((int)rightTrackedObject.index);
+        try
+        {
+            leftDevice = SteamVR_Controller.Input((int)leftTrackedObject.index);
+            rightDevice = SteamVR_Controller.Input((int)rightTrackedObject.index);
+        }
+        catch (IndexOutOfRangeException)
+        {
+            return;
+        }
 
         Transform LNearest = GetNearestTurnable(leftObject);
         if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position,LNearest.position) <= activationDistance)
         {
-
+            LNearest.GetComponent<ITurnable>().TurnLeft();
         }
 
-        Transform RTurnable = GetNearestTurnable(rightObject);
-        if(rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position,RTurnable.position) <= activationDistance)
+        Transform RNearest = GetNearestTurnable(rightObject);
+        if(rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position,RNearest.position) <= activationDistance)
         {
-
+            RNearest.GetComponent<ITurnable>().TurnRight();
         }
 
     }
