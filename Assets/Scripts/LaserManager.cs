@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Managers lasers
+/// </summary>
 public class LaserManager : MonoBehaviour
 {
     #region Variables
@@ -10,10 +13,15 @@ public class LaserManager : MonoBehaviour
 
     private EmitterObject emitter;
     private List<ManagedLaser> laserList;
+    private GameController GameController;
 
     #endregion Variables
 
     #region Methods
+    /// <summary>
+    /// Gets an inactive laser from the LaserManager
+    /// </summary>
+    /// <returns></returns>
     public ManagedLaser RequestLaser()
     {
         for(int i = 0; i < laserList.Count; i++)
@@ -38,6 +46,7 @@ public class LaserManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        GameController.FindObjectOfType<GameController>();
         laserTemplate = Resources.Load<Transform>("Prefabs/Laser");
         if (!laserTemplate)
         {
@@ -45,6 +54,7 @@ public class LaserManager : MonoBehaviour
         }
         laserList = new List<ManagedLaser>(FindObjectsOfType<LaserEmittingObject>().Length * 2);
         emitter = FindObjectOfType<EmitterObject>();
+        GameController.LasersReady();
     }
 
     // Update is called once per frame

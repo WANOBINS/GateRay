@@ -4,11 +4,16 @@ using System.Linq;
 using UnityEngine;
 using Valve.VR;
 
+/// <summary>
+/// Gets button presses from VR controllers
+/// </summary>
 public class VRControl : MonoBehaviour
 {
     #region Variables
 
     public float activationDistance = 1f;
+
+    private GameController GameController;
 
     [SerializeField]
     private GameObject leftObject;
@@ -52,6 +57,7 @@ public class VRControl : MonoBehaviour
         SteamVR_ControllerManager ControllerManager = CamRig.GetComponent<SteamVR_ControllerManager>();
         leftObject = ControllerManager.left;
         rightObject = ControllerManager.right;
+        GameController = FindObjectOfType<GameController>();
 
         leftTrackedObject = leftObject.GetComponent<SteamVR_TrackedObject>();
         rightTrackedObject = rightObject.GetComponent<SteamVR_TrackedObject>();
@@ -67,31 +73,63 @@ public class VRControl : MonoBehaviour
             }
         }
         Debug.Log("Loaded!");
+        GameController.VRControlReady();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        try
+        if (GameController.GameState != GameController.State.Invalid && GameController.GameState != GameController.State.Loading) //Not loading or errored
         {
-            leftDevice = SteamVR_Controller.Input((int)leftTrackedObject.index);
-            rightDevice = SteamVR_Controller.Input((int)rightTrackedObject.index);
-        }
-        catch (IndexOutOfRangeException)
-        {
-            return;
-        }
+            try
+            {
+                leftDevice = SteamVR_Controller.Input((int)leftTrackedObject.index);
+                rightDevice = SteamVR_Controller.Input((int)rightTrackedObject.index);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
 
-        Transform LNearest = GetNearestTurnable(leftObject);
-        if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position,LNearest.position) <= activationDistance)
-        {
-            LNearest.GetComponent<ITurnable>().TurnLeft();
-        }
+            Transform LNearest = GetNearestTurnable(leftObject);
+            if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position, LNearest.position) <= activationDistance)
+            {
+                LNearest.GetComponent<ITurnable>().TurnLeft();
+            }
 
-        Transform RNearest = GetNearestTurnable(rightObject);
-        if(rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position,RNearest.position) <= activationDistance)
-        {
-            RNearest.GetComponent<ITurnable>().TurnRight();
+            Transform RNearest = GetNearestTurnable(rightObject);
+            if (rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position, RNearest.position) <= activationDistance)
+            {
+                RNearest.GetComponent<ITurnable>().TurnRight();
+            }
+
+            if (leftDevice.GetPressDown(EVRButtonId.k_EButton_System))
+            {
+                switch (GameController.GameState)
+                {
+                    case GameController.State.MainMenu:
+                        {
+                            GameController.StartNextLevel();
+                            break;
+                        }
+                    case GameController.State.Running:
+                        {
+                            GameController.PauseGame();
+                            break;
+                        }
+                    case GameController.State.Paused:
+                        {
+                            GameController.ResumeGame();
+                            break;
+                        }
+                    case GameController.State.End:
+                        {
+                            GameController.ExitGame();
+                            break;
+                        }
+                }
+
+            }
         }
 
     }

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A class to be inclused in the UI Suite so the functions are alwasy available
+/// </summary>
 public class UIFunctions : MonoBehaviour
 {
     // Use this for initialization

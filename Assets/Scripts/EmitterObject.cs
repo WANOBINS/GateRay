@@ -1,17 +1,22 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// The laser emitter
+/// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class EmitterObject : LaserEmittingObject, ITurnable
 {
     #region Variables
 
     //private bool laserActive = false;
-    public Vector3 LaserOffest = new Vector3(0, 1.1316f, 0);
 
     #endregion Variables
 
     #region Methods
-
+    /// <summary>
+    /// Called to fire the initial laser
+    /// </summary>
     internal void Fire()
     {
         LaserManager.ManagedLaser Laser = LaserManager.RequestLaser();
@@ -37,20 +42,4 @@ public class EmitterObject : LaserEmittingObject, ITurnable
     }
 
     #endregion Methods
-
-    #region Unity Methods
-
-
-
-    // Use this for initialization
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
-
-    #endregion Unity Methods
 }

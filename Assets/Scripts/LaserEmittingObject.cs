@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// An object that emites a laser
+/// </summary>
 public class LaserEmittingObject : MonoBehaviour, ITurnable
 {
     protected LaserManager LaserManager;
     protected AudioSource AudioSource;
     protected GameController GameController;
+
+    protected Vector3 LaserOffest = new Vector3(0, 1.1316f, 0);
 
     public GameObject GetGameObject()
     {
