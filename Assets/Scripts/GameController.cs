@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,9 +9,8 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     #region Variables
-    public double MirrorTurnIncrement = 22.5;
-    public double NextLevelDelay = 5;
-    internal bool isGameReady;
+    public float MirrorTurnIncrement = 22.5f;
+    public float NextLevelDelay = 5f;
     private AudioClip _BGMusic;
     private AudioClip _TurnSound;
     private AudioClip _WinSound;
@@ -25,11 +25,6 @@ public class GameController : MonoBehaviour
 
     private Camera Camera;
     private AudioListener Ears;
-
-    #region ReadyUp
-    bool VRControl = false;
-    bool Lasers = false;
-    #endregion ReadyUp
 
     private AudioSource BGMusicSource;
 
@@ -95,20 +90,40 @@ public class GameController : MonoBehaviour
         }
     }
 
-    internal void LasersReady()
-    {
-        Lasers = true;
-    }
-
-    public bool LevelReady { get; private set; }
-
     #endregion Variables
 
     #region Methods
 
     public void FinishLevel()
     {
+        if(SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCount - 1)
+        {
+            GameState = State.End;
+            ShowEndMenu();
+        }
+        else
+        {
+            StartCoroutine(LoadNextLevel());
+            GameState = State.Loading;
+        }
+    }
+
+    private void ShowEndMenu()
+    {
         throw new NotImplementedException();
+    }
+
+    private IEnumerator LoadNextLevel()
+    {
+        if(SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            SceneManager.LoadScene(1);
+        }
+        else if(SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount - 1)
+        {
+            yield return new WaitForSeconds(NextLevelDelay);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     #endregion Methods
@@ -132,21 +147,9 @@ public class GameController : MonoBehaviour
         Ears = EarCameraObject.GetComponent<AudioListener>();
     }
 
-    internal void VRControlReady()
-    {
-        VRControl = true;
-    }
-
     // Use this for initialization
     private void Start()
     {
-        while (!LevelReady)
-        {
-            if(VRControl && Lasers)
-            {
-                LevelReady = true;
-            }
-        }
         if(SceneManager.GetActiveScene().name == "Main Menu")
         {
             GameState = State.MainMenu;

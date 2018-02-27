@@ -73,7 +73,6 @@ public class VRControl : MonoBehaviour
             }
         }
         Debug.Log("Loaded!");
-        GameController.VRControlReady();
     }
 
     // Update is called once per frame

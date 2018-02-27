@@ -16,7 +16,7 @@ public class LaserTarget : MonoBehaviour,ILaserableObject
 
     public void LaserHit(LaserEmittingObject other, RaycastHit hit)
     {
-        transform.Find("RecieverOrb").GetComponent<Renderer>().material = GameController.WinMat;
+        transform.Find("Sphere").GetComponent<Renderer>().material = GameController.WinMat;
         GameController.FinishLevel();
     }
 }

@@ -54,7 +54,6 @@ public class LaserManager : MonoBehaviour
         }
         laserList = new List<ManagedLaser>(FindObjectsOfType<LaserEmittingObject>().Length * 2);
         emitter = FindObjectOfType<EmitterObject>();
-        GameController.LasersReady();
     }
 
     // Update is called once per frame
