@@ -19,13 +19,13 @@ public class LaserEmittingObject : MonoBehaviour, ITurnable
     public void TurnLeft()
     {
         AudioSource.PlayOneShot(GameController.TurnSound);
-        transform.Rotate(transform.up, -(float)GameController.MirrorTurnIncrement);
+        transform.Rotate(transform.up, -GameController.MirrorTurnIncrement);
     }
 
     public void TurnRight()
     {
         AudioSource.PlayOneShot(GameController.TurnSound);
-        transform.Rotate(transform.up, (float)GameController.MirrorTurnIncrement);
+        transform.Rotate(transform.up, GameController.MirrorTurnIncrement);
     }
 
     // Awake is called when the script instance is being loaded

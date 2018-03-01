@@ -18,7 +18,8 @@ public class GameController : MonoBehaviour
     private Material _WinMat;
     private GameObject MenuSuite;
     private GameObject PauseMenu;
-    private State _GameState;
+    [SerializeField]
+    private State _GameState = State.Invalid;
 
     private GameObject CameraObject;
     private GameObject EarCameraObject;
@@ -110,20 +111,53 @@ public class GameController : MonoBehaviour
 
     private void ShowEndMenu()
     {
-        throw new NotImplementedException();
+        if(GameState == State.Running)
+        {
+            GameState = State.End;
+        }
     }
 
     private IEnumerator LoadNextLevel()
     {
-        if(SceneManager.GetActiveScene().buildIndex == 0)
+        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount - 1)
         {
-            SceneManager.LoadScene(1);
-        }
-        else if(SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount - 1)
-        {
+            GameState = State.Loading;
             yield return new WaitForSeconds(NextLevelDelay);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+        if(SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCount - 1)
+        {
+            ShowEndMenu();
+        }
+    }
+
+    internal void PauseGame()
+    {
+        if (GameState == State.Running)
+        {
+            GameState = State.Paused;
+        }
+    }
+
+    internal void ResumeGame()
+    {
+        if (GameState == State.Paused)
+        {
+            GameState = State.Running;
+        }
+    }
+
+    internal void StartNextLevel()
+    {
+        if (GameState == State.Running)
+        {
+            StartCoroutine(LoadNextLevel());
+        }
+    }
+
+    internal void ExitGame()
+    {
+        Application.Quit();
     }
 
     #endregion Methods
@@ -133,24 +167,43 @@ public class GameController : MonoBehaviour
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        GameState = State.Loading;
+        DontDestroyOnLoad(gameObject);
+        GameState = State.MainMenu;
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         BGMusic = Resources.Load<AudioClip>("Audio/GRBackgroundMusic");
         TurnSound = Resources.Load<AudioClip>("Audio/RotateSound");
         WinSound = Resources.Load<AudioClip>("Audio/YouWinSound");
         MenuSuiteTemplate = Resources.Load<GameObject>("Prefabs/MenuSuite");
         WinMat = Resources.Load<Material>("Materials/RecieverOn");
-
-        CameraObject = GameObject.FindGameObjectWithTag("MainCamera");
-        EarCameraObject = GameObject.Find("Camera (ears)");
-
-        Camera = CameraObject.GetComponent<Camera>();
-        Ears = EarCameraObject.GetComponent<AudioListener>();
     }
 
-    // Use this for initialization
+    // Start is called just before any of the Update methods is called the first time
     private void Start()
     {
-        if(SceneManager.GetActiveScene().name == "Main Menu")
+
+    }
+
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        CameraObject = GameObject.FindGameObjectWithTag("MainCamera");
+        EarCameraObject = GameObject.Find("Camera (ears)");
+        if (CameraObject)
+        {
+            Camera = CameraObject.GetComponent<Camera>();
+        }
+        if (EarCameraObject)
+        {
+            Ears = EarCameraObject.GetComponent<AudioListener>();
+        }
+        if (EarCameraObject)
+        {
+            BGMusicSource = EarCameraObject.AddComponent<AudioSource>();
+            BGMusicSource.playOnAwake = false;
+            BGMusicSource.loop = true;
+            BGMusicSource.clip = BGMusic;
+            BGMusicSource.Play();
+        }
+        if (arg0.name == "Main Menu")
         {
             GameState = State.MainMenu;
         }
@@ -158,47 +211,8 @@ public class GameController : MonoBehaviour
         {
             GameState = State.Running;
         }
-        BGMusicSource = EarCameraObject.AddComponent<AudioSource>();
-        BGMusicSource.playOnAwake = false;
-        BGMusicSource.loop = true;
-        BGMusicSource.clip = BGMusic;
-        BGMusicSource.Play();
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
     }
 
     #endregion Unity Methods
-
-    public enum State
-    {
-        Invalid, //Errored State
-        Loading, //Loading
-        MainMenu, //Main Menu
-        Running, //Running
-        Paused, //Paused
-        End //End Screen
-    }
-
-    internal void PauseGame()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal void ResumeGame()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal void StartNextLevel()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal void ExitGame()
-    {
-        throw new NotImplementedException();
-    }
+    
 }

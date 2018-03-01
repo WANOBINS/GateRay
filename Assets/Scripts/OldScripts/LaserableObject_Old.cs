@@ -2,15 +2,16 @@
 
 namespace oldScripts
 {
-    public class LaserableObject : MonoBehaviour
+#pragma warning disable
+    public class LaserableObject_Old : MonoBehaviour
     {
         #region Variables
 
         public bool IsEndGoal;
         public bool DestroyOnLasered;
         public bool Lasered;
-        public LaserEmittingObject2 LaseringObject;
-        protected GameController Controller;
+        public LaserEmittingObject2_Old LaseringObject;
+        protected GameController_Old Controller;
 
         #endregion Variables
 
@@ -22,7 +23,7 @@ namespace oldScripts
         /// <param name="_LaseringObject"></param>
         public virtual void OnLasered(GameObject _LaseringObject)
         {
-            LaseringObject = _LaseringObject.GetComponent<LaserEmittingObject2>();
+            LaseringObject = _LaseringObject.GetComponent<LaserEmittingObject2_Old>();
             if (DestroyOnLasered)
             {
                 Destroy(gameObject);
@@ -40,7 +41,7 @@ namespace oldScripts
         // Use this for initialization
         private void Start()
         {
-            Controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            Controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController_Old>();
         }
 
         // Update is called once per frame
@@ -50,4 +51,5 @@ namespace oldScripts
 
         #endregion Unity Methods
     }
+#pragma warning restore
 }

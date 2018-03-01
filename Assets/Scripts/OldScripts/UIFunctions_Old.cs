@@ -3,11 +3,12 @@ using UnityEngine.SceneManagement;
 
 namespace oldScripts
 {
-    public class UIFunctions : MonoBehaviour
+#pragma warning disable
+    public class UIFunctions_Old : MonoBehaviour
     {
         #region Variables
 
-        private GameController Controller;
+        private GameController_Old Controller;
 
         #endregion Variables
 
@@ -44,7 +45,7 @@ namespace oldScripts
         // Use this for initialization
         private void Start()
         {
-            Controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            Controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController_Old>();
         }
 
         // Update is called once per frame
@@ -54,4 +55,5 @@ namespace oldScripts
 
         #endregion Unity Methods
     }
+#pragma warning restore
 }

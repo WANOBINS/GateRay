@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 namespace oldScripts
 {
-    public class GameController : MonoBehaviour
+#pragma warning disable
+    public class GameController_Old : MonoBehaviour
     {
         #region Variables
 
@@ -210,4 +211,5 @@ namespace oldScripts
 
         #endregion Unity Methods
     }
+#pragma warning restore
 }

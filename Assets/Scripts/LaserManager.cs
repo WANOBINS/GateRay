@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Managers lasers
 /// </summary>
-public class LaserManager : MonoBehaviour
+public partial class LaserManager : MonoBehaviour
 {
     #region Variables
 
@@ -46,7 +46,7 @@ public class LaserManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        GameController.FindObjectOfType<GameController>();
+        GameController = FindObjectOfType<GameController>();
         laserTemplate = Resources.Load<Transform>("Prefabs/Laser");
         if (!laserTemplate)
         {
@@ -59,41 +59,16 @@ public class LaserManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        foreach(ManagedLaser laser in laserList)
+        if (GameController.GameState == State.Running)
         {
-            laser.Active = false;
-            laser.inUse = false;
+            foreach (ManagedLaser laser in laserList)
+            {
+                laser.Active = false;
+                laser.inUse = false;
+            }
+            emitter.Fire();
         }
-        emitter.Fire();
     }
 
-    #endregion Unity Methods
-
-    public class ManagedLaser
-    {
-        public Transform laser;
-        private bool active;
-        public bool inUse;
-
-        public bool Active
-        {
-            get
-            {
-                active = laser.gameObject.activeSelf;
-                return active;
-            }
-
-            set
-            {
-                laser.gameObject.SetActive(value);
-                active = value;
-            }
-        }
-
-        public ManagedLaser()
-        {
-            laser = Instantiate(laserTemplate);
-            active = false;
-        }
-    }
+#endregion Unity Methods
 }

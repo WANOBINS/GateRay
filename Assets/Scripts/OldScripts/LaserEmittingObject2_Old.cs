@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace oldScripts
 {
-    public class LaserEmittingObject2 : LaserableObject
+#pragma warning disable
+    public class LaserEmittingObject2_Old : LaserableObject_Old
     {
         #region Variables
 
@@ -17,8 +18,8 @@ namespace oldScripts
         public bool IsLaserActive = false;
         public RaycastHit[] HitObjects = null;
         public RaycastHit FirstHit;
-        public LaserableObject LaseredObject = null;
-        public ReflectorObject2 LaseredReflector;
+        public LaserableObject_Old LaseredObject = null;
+        public ReflectorObject2_Old LaseredReflector;
 
         #endregion Variables
 
@@ -51,8 +52,8 @@ namespace oldScripts
                     if (Hit.collider.gameObject != gameObject)
                     {
                         FirstHit = Hit;
-                        LaseredObject = Hit.collider.gameObject.GetComponent<LaserableObject>();
-                        LaseredReflector = Hit.collider.gameObject.GetComponent<ReflectorObject2>();
+                        LaseredObject = Hit.collider.gameObject.GetComponent<LaserableObject_Old>();
+                        LaseredReflector = Hit.collider.gameObject.GetComponent<ReflectorObject2_Old>();
                         break;
                     }
                 }
@@ -93,7 +94,7 @@ namespace oldScripts
                 HeightTweak = gameObject.transform.localScale.y / 2;
             }
             InactiveLaserScale = new Vector3(0, 0, 0);
-            Controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            Controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController_Old>();
             LaserTemplate = Controller.GetLaserTemplate();
             OutboundLaser = Instantiate(LaserTemplate, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + HeightTweak, gameObject.transform.position.z), gameObject.transform.rotation);
             OutboundLaser.transform.localScale = InactiveLaserScale;
@@ -122,4 +123,5 @@ namespace oldScripts
 
         #endregion Unity Methods
     }
+#pragma warning restore
 }

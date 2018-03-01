@@ -2,7 +2,8 @@
 
 namespace oldScripts
 {
-    public class ReflectorObject2 : LaserEmittingObject2
+#pragma warning disable
+    public class ReflectorObject2_Old : LaserEmittingObject2_Old
     {
         #region Variables
 
@@ -29,15 +30,15 @@ namespace oldScripts
             TempV3.y = TempV3.y + AngleTweak;
             TempQuat.eulerAngles = TempV3;
             ReflectionCenter = TempQuat * Vector3.forward;
-            if (LaseringObject.GetComponent<LaserEmittingObject2>().LaseredObject != gameObject.GetComponent<LaserableObject>())
+            if (LaseringObject.GetComponent<LaserEmittingObject2_Old>().LaseredObject != gameObject.GetComponent<LaserableObject_Old>())
             {
                 Lasered = false;
             }
             if (LaseredObject != null)
             {
-                if (LaseredObject.GetComponent<LaserableObject>() != null)
+                if (LaseredObject.GetComponent<LaserableObject_Old>() != null)
                 {
-                    LaseredObject.GetComponent<LaserableObject>().Lasered = false;
+                    LaseredObject.GetComponent<LaserableObject_Old>().Lasered = false;
                 }
             }
             if (Lasered)
@@ -80,4 +81,5 @@ namespace oldScripts
 
         #endregion Unity Methods
     }
+#pragma warning restore
 }

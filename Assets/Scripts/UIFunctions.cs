@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// A class to be inclused in the UI Suite so the functions are alwasy available
+/// A class to be included in the UI Suite so the functions are always available
 /// </summary>
 public class UIFunctions : MonoBehaviour
 {

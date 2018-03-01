@@ -26,6 +26,9 @@ public class VRControl : MonoBehaviour
     private SteamVR_Controller.Device leftDevice;
     private SteamVR_Controller.Device rightDevice;
 
+    private LineRenderer LLine;
+    private LineRenderer RLine;
+
     //Note: Turnables System only works for stationary turnables
     private List<ITurnable> Turnables;
 
@@ -59,6 +62,11 @@ public class VRControl : MonoBehaviour
         rightObject = ControllerManager.right;
         GameController = FindObjectOfType<GameController>();
 
+        LLine = leftObject.AddComponent<LineRenderer>();
+        RLine = rightObject.AddComponent<LineRenderer>();
+
+
+
         leftTrackedObject = leftObject.GetComponent<SteamVR_TrackedObject>();
         rightTrackedObject = rightObject.GetComponent<SteamVR_TrackedObject>();
 
@@ -78,8 +86,9 @@ public class VRControl : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (GameController.GameState != GameController.State.Invalid && GameController.GameState != GameController.State.Loading) //Not loading or errored
+        if (GameController.GameState != State.Invalid && GameController.GameState != State.Loading) //Not loading or errored
         {
+            //Fetch device states
             try
             {
                 leftDevice = SteamVR_Controller.Input((int)leftTrackedObject.index);
@@ -90,38 +99,47 @@ public class VRControl : MonoBehaviour
                 return;
             }
 
-            Transform LNearest = GetNearestTurnable(leftObject);
-            if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position, LNearest.position) <= activationDistance)
+            //Turn controls only work when the game is in the Running phase
+            if (GameController.GameState == State.Running)
             {
-                LNearest.GetComponent<ITurnable>().TurnLeft();
+                Transform LNearest = GetNearestTurnable(leftObject);
+                if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position, LNearest.position) <= activationDistance)
+                {
+                    LNearest.GetComponent<ITurnable>().TurnLeft();
+                }
+
+                Transform RNearest = GetNearestTurnable(rightObject);
+                if (rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position, RNearest.position) <= activationDistance)
+                {
+                    RNearest.GetComponent<ITurnable>().TurnRight();
+                }
+            }
+            else if(GameController.GameState == State.MainMenu)
+            {
+
             }
 
-            Transform RNearest = GetNearestTurnable(rightObject);
-            if (rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position, RNearest.position) <= activationDistance)
-            {
-                RNearest.GetComponent<ITurnable>().TurnRight();
-            }
-
+            //HACK: Debug bindings
             if (leftDevice.GetPressDown(EVRButtonId.k_EButton_System))
             {
                 switch (GameController.GameState)
                 {
-                    case GameController.State.MainMenu:
+                    case State.MainMenu:
                         {
                             GameController.StartNextLevel();
                             break;
                         }
-                    case GameController.State.Running:
+                    case State.Running:
                         {
                             GameController.PauseGame();
                             break;
                         }
-                    case GameController.State.Paused:
+                    case State.Paused:
                         {
                             GameController.ResumeGame();
                             break;
                         }
-                    case GameController.State.End:
+                    case State.End:
                         {
                             GameController.ExitGame();
                             break;
