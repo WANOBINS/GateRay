@@ -32,6 +32,32 @@ public class VRControl : MonoBehaviour
     //Note: Turnables System only works for stationary turnables
     private List<ITurnable> Turnables;
 
+    public GameObject LeftObject
+    {
+        get
+        {
+            return leftObject;
+        }
+
+        private set
+        {
+            leftObject = value;
+        }
+    }
+
+    public GameObject RightObject
+    {
+        get
+        {
+            return rightObject;
+        }
+
+        private set
+        {
+            rightObject = value;
+        }
+    }
+
     #endregion Variables
 
     #region Methods
@@ -52,23 +78,23 @@ public class VRControl : MonoBehaviour
 
     #region Unity Methods
 
-    // Use this for initialization
-    private void Start()
+    // Awake is called when the script instance is being loaded
+    private void Awake()
     {
         Debug.Log("Loading...");
         GameObject CamRig = GameObject.Find("[CameraRig]");
         SteamVR_ControllerManager ControllerManager = CamRig.GetComponent<SteamVR_ControllerManager>();
-        leftObject = ControllerManager.left;
-        rightObject = ControllerManager.right;
+        LeftObject = ControllerManager.left;
+        RightObject = ControllerManager.right;
+    }
+
+    // Use this for initialization
+    private void Start()
+    {
         GameController = FindObjectOfType<GameController>();
 
-        LLine = leftObject.AddComponent<LineRenderer>();
-        RLine = rightObject.AddComponent<LineRenderer>();
-
-
-
-        leftTrackedObject = leftObject.GetComponent<SteamVR_TrackedObject>();
-        rightTrackedObject = rightObject.GetComponent<SteamVR_TrackedObject>();
+        leftTrackedObject = LeftObject.GetComponent<SteamVR_TrackedObject>();
+        rightTrackedObject = RightObject.GetComponent<SteamVR_TrackedObject>();
 
         Turnables = new List<ITurnable>();
 
@@ -102,14 +128,14 @@ public class VRControl : MonoBehaviour
             //Turn controls only work when the game is in the Running phase
             if (GameController.GameState == State.Running)
             {
-                Transform LNearest = GetNearestTurnable(leftObject);
-                if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(leftObject.transform.position, LNearest.position) <= activationDistance)
+                Transform LNearest = GetNearestTurnable(LeftObject);
+                if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(LeftObject.transform.position, LNearest.position) <= activationDistance)
                 {
                     LNearest.GetComponent<ITurnable>().TurnLeft();
                 }
 
-                Transform RNearest = GetNearestTurnable(rightObject);
-                if (rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(rightObject.transform.position, RNearest.position) <= activationDistance)
+                Transform RNearest = GetNearestTurnable(RightObject);
+                if (rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(RightObject.transform.position, RNearest.position) <= activationDistance)
                 {
                     RNearest.GetComponent<ITurnable>().TurnRight();
                 }
@@ -120,7 +146,7 @@ public class VRControl : MonoBehaviour
             }
 
             //HACK: Debug bindings
-            if (leftDevice.GetPressDown(EVRButtonId.k_EButton_System))
+            if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
             {
                 switch (GameController.GameState)
                 {
