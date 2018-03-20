@@ -139,40 +139,52 @@ public class VRControl : MonoBehaviour
                 {
                     RNearest.GetComponent<ITurnable>().TurnRight();
                 }
+
+                if(leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+                {
+                    GameController.PauseGame();
+                }
+            }
+            else if(GameController.GameState == State.Paused)
+            {
+                if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+                {
+                    GameController.ResumeGame();
+                }
             }
             else if(GameController.GameState == State.MainMenu)
             {
 
             }
 
-            //HACK: Debug bindings
-            if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
-            {
-                switch (GameController.GameState)
-                {
-                    case State.MainMenu:
-                        {
-                            GameController.StartNextLevel();
-                            break;
-                        }
-                    case State.Running:
-                        {
-                            GameController.PauseGame();
-                            break;
-                        }
-                    case State.Paused:
-                        {
-                            GameController.ResumeGame();
-                            break;
-                        }
-                    case State.End:
-                        {
-                            GameController.ExitGame();
-                            break;
-                        }
-                }
+            ////HACK: Debug bindings
+            //if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+            //{
+            //    switch (GameController.GameState)
+            //    {
+            //        case State.MainMenu:
+            //            {
+            //                GameController.StartNextLevel();
+            //                break;
+            //            }
+            //        case State.Running:
+            //            {
+            //                GameController.PauseGame();
+            //                break;
+            //            }
+            //        case State.Paused:
+            //            {
+            //                GameController.ResumeGame();
+            //                break;
+            //            }
+            //        case State.End:
+            //            {
+            //                GameController.ExitGame();
+            //                break;
+            //            }
+            //    }
 
-            }
+            //}
         }
 
     }

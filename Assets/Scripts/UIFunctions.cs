@@ -14,4 +14,29 @@ public class UIFunctions : MonoBehaviour
     private void Update()
     {
     }
+
+    public void RequestNextLevel()
+    {
+
+    }
+
+    public void Pause()
+    {
+
+    }
+
+    public void Resume()
+    {
+
+    }
+
+    public void QuitToMainMenu()
+    {
+
+    }
+
+    public void StartGame()
+    {
+
+    }
 }
