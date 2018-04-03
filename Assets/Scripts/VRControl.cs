@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using Valve.VR;
 
 /// <summary>
@@ -81,16 +83,17 @@ public class VRControl : MonoBehaviour
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         Debug.Log("Loading...");
         GameObject CamRig = GameObject.Find("[CameraRig]");
         SteamVR_ControllerManager ControllerManager = CamRig.GetComponent<SteamVR_ControllerManager>();
         LeftObject = ControllerManager.left;
         RightObject = ControllerManager.right;
-    }
-
-    // Use this for initialization
-    private void Start()
-    {
         GameController = FindObjectOfType<GameController>();
 
         leftTrackedObject = LeftObject.GetComponent<SteamVR_TrackedObject>();
@@ -152,9 +155,12 @@ public class VRControl : MonoBehaviour
                     GameController.ResumeGame();
                 }
             }
-            else if(GameController.GameState == State.MainMenu)
+            if(GameController.GameState == State.MainMenu || GameController.GameState == State.Paused)
             {
-
+                if (rightDevice.GetPressDown(EVRButtonId.k_EButton_SteamVR_Trigger) && GetComponent<UIManager>().SelectedButton != null)
+                {
+                    GetComponent<UIManager>().SelectedButton.OnSubmit(new UnityEngine.EventSystems.BaseEventData(GetComponent<UIManager>().SelectedButton.transform.parent.parent.GetComponent<EventSystem>()));
+                }
             }
 
             ////HACK: Debug bindings

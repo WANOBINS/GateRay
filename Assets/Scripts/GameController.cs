@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     private AudioClip _TurnSound;
     private AudioClip _WinSound;
     private GameObject MenuSuiteTemplate;
+
     private Material _WinMat;
     private GameObject MenuSuite;
     private GameObject PauseMenu;
@@ -94,6 +95,12 @@ public class GameController : MonoBehaviour
     #endregion Variables
 
     #region Methods
+
+    internal void LoadLevel(int sceneIndex)
+    {
+        GameState = State.Loading;
+        SceneManager.LoadScene(sceneIndex);
+    }
 
     public void FinishLevel()
     {
@@ -203,7 +210,7 @@ public class GameController : MonoBehaviour
             BGMusicSource.clip = BGMusic;
             BGMusicSource.Play();
         }
-        if (arg0.name == "Main Menu")
+        if (arg0.name == "Test Scene")
         {
             GameState = State.MainMenu;
         }
