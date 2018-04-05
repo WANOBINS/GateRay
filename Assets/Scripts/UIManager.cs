@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () { 
-		if(GameController.GameState == State.MainMenu || GameController.GameState == State.Paused)
+		if(GameController.GameState == State.Paused)
         {
             //LLaser.enabled = true;
             RLaser.enabled = true;
@@ -70,18 +70,22 @@ public class UIManager : MonoBehaviour {
             //    LLaser.SetPosition(1, LLaser.transform.forward + (LRay.direction * DefaultLaserLength));
             //}
 
-            if(Physics.Raycast(RRay,out RHit, Mathf.Infinity, LayerMask.GetMask("UI")))
+            if (Physics.Raycast(RRay, out RHit, Mathf.Infinity))
             {
                 RLaser.SetPosition(1, RHit.point);
+                if (RHit.transform.GetComponent<Button>() != null)
+                {
                 RHit.transform.GetComponent<Button>().Select();
                 SelectedButton = RHit.transform.GetComponent<Button>();
+                }
                 Debug.Log("RPointer Hit: " + RHit.transform.name);
             }
             else
             {
                 SelectedButton = null;
-                RLaser.SetPosition(1, RLaser.transform.forward + (RRay.direction * DefaultLaserLength));
+                RLaser.SetPosition(1, RRay.direction * DefaultLaserLength);
             }
+            //RLaser.SetPosition(1, RLaser.transform.forward + (RRay.direction * DefaultLaserLength));
         }
         else
         {

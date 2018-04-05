@@ -13,7 +13,7 @@ public class VRControl : MonoBehaviour
 {
     #region Variables
 
-    public float activationDistance = 1f;
+    public float activationDistance = 2f;
 
     private GameController GameController;
 
@@ -128,18 +128,21 @@ public class VRControl : MonoBehaviour
                 return;
             }
 
-            //Turn controls only work when the game is in the Running phase
-            if (GameController.GameState == State.Running)
+            //Turn controls only work when the game is in the Running and Main Menu phases
+            if (GameController.GameState == State.Running || GameController.GameState == State.MainMenu)
             {
+                Debug.Log("Normal Input Active");
                 Transform LNearest = GetNearestTurnable(LeftObject);
                 if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(LeftObject.transform.position, LNearest.position) <= activationDistance)
                 {
+                    Debug.Log("Attempting to turn " + LNearest + " left");
                     LNearest.GetComponent<ITurnable>().TurnLeft();
                 }
 
                 Transform RNearest = GetNearestTurnable(RightObject);
                 if (rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(RightObject.transform.position, RNearest.position) <= activationDistance)
                 {
+                    Debug.Log("Attempting to turn " + RNearest + " right");
                     RNearest.GetComponent<ITurnable>().TurnRight();
                 }
 
@@ -150,16 +153,17 @@ public class VRControl : MonoBehaviour
             }
             else if(GameController.GameState == State.Paused)
             {
+                Debug.Log("Menu Input Active");
                 if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
                 {
                     GameController.ResumeGame();
                 }
             }
-            if(GameController.GameState == State.MainMenu || GameController.GameState == State.Paused)
+            if(GameController.GameState == State.Paused)
             {
                 if (rightDevice.GetPressDown(EVRButtonId.k_EButton_SteamVR_Trigger) && GetComponent<UIManager>().SelectedButton != null)
                 {
-                    GetComponent<UIManager>().SelectedButton.OnSubmit(new UnityEngine.EventSystems.BaseEventData(GetComponent<UIManager>().SelectedButton.transform.parent.parent.GetComponent<EventSystem>()));
+                    GetComponent<UIManager>().SelectedButton.OnSubmit(new BaseEventData(GetComponent<UIManager>().SelectedButton.transform.parent.parent.GetComponent<EventSystem>()));
                 }
             }
 

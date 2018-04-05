@@ -27,7 +27,6 @@ public class EmitterObject : LaserEmittingObject, ITurnable
         Laser.Active = true;
         if(Physics.Raycast(beam,out hit,Mathf.Infinity))
         {
-            Debug.Log("I hit: " + hit.collider.gameObject.name);
             Laser.laser.localScale = new Vector3(1,1,Vector3.Distance(beam.origin, hit.point));
             ILaserableObject laserableObject = hit.collider.gameObject.GetComponent<ILaserableObject>();
             if (laserableObject != null)

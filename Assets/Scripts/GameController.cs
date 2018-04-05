@@ -140,9 +140,9 @@ public class GameController : MonoBehaviour
 
     internal void PauseGame()
     {
-        if (GameState == State.Running)
+        if (GameState == State.Running || GameState == State.MainMenu)
         {
-            GameState = State.Paused;
+                GameState = State.Paused;
         }
     }
 
@@ -150,7 +150,14 @@ public class GameController : MonoBehaviour
     {
         if (GameState == State.Paused)
         {
-            GameState = State.Running;
+            if (SceneManager.GetActiveScene().name == "Test Scene")
+            {
+                GameState = State.MainMenu;
+            }
+            else
+            {
+                GameState = State.Running;
+            }
         }
     }
 

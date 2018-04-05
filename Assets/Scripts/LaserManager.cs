@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Managers lasers
@@ -43,6 +44,12 @@ public partial class LaserManager : MonoBehaviour
 
     #region Unity Methods
 
+    // Awake is called when the script instance is being loaded
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+    }
+
     // Use this for initialization
     private void Start()
     {
@@ -52,6 +59,10 @@ public partial class LaserManager : MonoBehaviour
         {
             throw new NullReferenceException("laserTemplate is not set");
         }
+    }
+
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
         laserList = new List<ManagedLaser>(FindObjectsOfType<LaserEmittingObject>().Length * 2);
         emitter = FindObjectOfType<EmitterObject>();
     }
@@ -59,7 +70,7 @@ public partial class LaserManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (GameController.GameState == State.Running)
+        if (GameController.GameState == State.Running || GameController.GameState == State.MainMenu)
         {
             foreach (ManagedLaser laser in laserList)
             {
