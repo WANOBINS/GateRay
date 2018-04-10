@@ -16,6 +16,8 @@ public class VRControl : MonoBehaviour
     public float activationDistance = 2f;
 
     private GameController GameController;
+    private Transform Floor;
+    private List<Vector3> ArcPoints = new List<Vector3>();
 
     [SerializeField]
     private GameObject leftObject;
@@ -30,6 +32,16 @@ public class VRControl : MonoBehaviour
 
     private LineRenderer LLine;
     private LineRenderer RLine;
+
+    private TeleportState teleportState = VRControl.TeleportState.Inactive;
+
+    private enum TeleportState
+    {
+        Inactive,
+        LTargeting,
+        RTargeting,
+        Deactivating
+    }
 
     //Note: Turnables System only works for stationary turnables
     private List<ITurnable> Turnables;
@@ -66,9 +78,9 @@ public class VRControl : MonoBehaviour
     private Transform GetNearestTurnable(GameObject controllerObject)
     {
         GameObject CurrentClosest = null;
-        foreach(ITurnable turnable in Turnables)
+        foreach (ITurnable turnable in Turnables)
         {
-            if(CurrentClosest == null || Vector3.Distance(controllerObject.transform.position, turnable.GetGameObject().transform.position) < Vector3.Distance(controllerObject.transform.position,CurrentClosest.transform.position))
+            if (CurrentClosest == null || Vector3.Distance(controllerObject.transform.position, turnable.GetGameObject().transform.position) < Vector3.Distance(controllerObject.transform.position, CurrentClosest.transform.position))
             {
                 CurrentClosest = turnable.GetGameObject();
             }
@@ -95,15 +107,16 @@ public class VRControl : MonoBehaviour
         LeftObject = ControllerManager.left;
         RightObject = ControllerManager.right;
         GameController = FindObjectOfType<GameController>();
+        Floor = GameObject.Find("Floor").transform;
 
         leftTrackedObject = LeftObject.GetComponent<SteamVR_TrackedObject>();
         rightTrackedObject = RightObject.GetComponent<SteamVR_TrackedObject>();
 
         Turnables = new List<ITurnable>();
 
-        foreach(GameObject go in FindObjectsOfType<GameObject>())
+        foreach (GameObject go in FindObjectsOfType<GameObject>())
         {
-            if(go.GetComponent<ITurnable>() != null)
+            if (go.GetComponent<ITurnable>() != null)
             {
                 Debug.Log("Adding " + go.name + " to list of turnables");
                 Turnables.Add(go.GetComponent<ITurnable>());
@@ -146,57 +159,69 @@ public class VRControl : MonoBehaviour
                     RNearest.GetComponent<ITurnable>().TurnRight();
                 }
 
-                if(leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+                if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
                 {
                     GameController.PauseGame();
                 }
             }
-            else if(GameController.GameState == State.Paused)
+            else if (GameController.GameState == State.Paused)
             {
                 Debug.Log("Menu Input Active");
                 if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
                 {
                     GameController.ResumeGame();
                 }
-            }
-            if(GameController.GameState == State.Paused)
-            {
                 if (rightDevice.GetPressDown(EVRButtonId.k_EButton_SteamVR_Trigger) && GetComponent<UIManager>().SelectedButton != null)
                 {
                     GetComponent<UIManager>().SelectedButton.OnSubmit(new BaseEventData(GetComponent<UIManager>().SelectedButton.transform.parent.parent.GetComponent<EventSystem>()));
                 }
             }
 
-            ////HACK: Debug bindings
-            //if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
-            //{
-            //    switch (GameController.GameState)
-            //    {
-            //        case State.MainMenu:
-            //            {
-            //                GameController.StartNextLevel();
-            //                break;
-            //            }
-            //        case State.Running:
-            //            {
-            //                GameController.PauseGame();
-            //                break;
-            //            }
-            //        case State.Paused:
-            //            {
-            //                GameController.ResumeGame();
-            //                break;
-            //            }
-            //        case State.End:
-            //            {
-            //                GameController.ExitGame();
-            //                break;
-            //            }
-            //    }
+            //If TP system isn't resetting
+            if (teleportState != TeleportState.Deactivating)
+            {
+                //If one is pushed and the other isn't
+                if (leftDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad) ^ rightDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
+                {
+                    //If left is pushed
+                    if (leftDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
+                    {
+                        teleportState = TeleportState.LTargeting;
+                        //Show Arc L
+                    }
+                    //If button is released and we're targeting left
+                    if (leftDevice.GetPressUp(EVRButtonId.k_EButton_SteamVR_Touchpad) && teleportState == TeleportState.LTargeting)
+                    {
+                        //Teleport L
+                    }
 
-            //}
+                    //If right is pushed
+                    if (rightDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
+                    {
+                        teleportState = TeleportState.RTargeting;
+                        //Show Arc R
+                    }
+                    //If the button is released and we're targeting right
+                    if (rightDevice.GetPressUp(EVRButtonId.k_EButton_SteamVR_Touchpad) && teleportState == TeleportState.RTargeting)
+                    {
+                        //Teleport R
+                    }
+                }
+                //If both are pushed
+                else if(leftDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad) && rightDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
+                {
+                    //Set to deactivate
+                    teleportState = TeleportState.Deactivating;
+                }
+            }
+            if(teleportState == TeleportState.Deactivating)
+            {
+                if(!leftDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad) && !rightDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
+                {
+                    teleportState = TeleportState.Inactive;
+                }
+            }
         }
-
     }
 
     #endregion Unity Methods

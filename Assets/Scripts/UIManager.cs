@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
+
+    public LayerMask UILaserMask = new LayerMask();
+
     GameController GameController;
     VRControl VRControl;
     Material LaserMat;

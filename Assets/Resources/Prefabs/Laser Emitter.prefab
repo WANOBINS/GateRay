@@ -488,7 +488,7 @@ MeshCollider:
   m_GameObject: {fileID: 1564987465353096}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -621,7 +621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0575d569602d8ed49a9a4c14dadaff49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LaserOffest: {x: 0, y: 1.1316, z: 0}
 --- !u!136 &136216089971970152
 CapsuleCollider:
   m_ObjectHideFlags: 1

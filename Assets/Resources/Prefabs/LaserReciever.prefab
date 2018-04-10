@@ -58,9 +58,10 @@ GameObject:
   - component: {fileID: 33278206204498018}
   - component: {fileID: 135385309097002682}
   - component: {fileID: 23891322355608648}
+  - component: {fileID: 114704079594398192}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +111,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4855971504363972}
   - component: {fileID: 114539494288595598}
-  - component: {fileID: 135257830957405128}
   m_Layer: 0
   m_Name: LaserReciever
   m_TagString: Untagged
@@ -643,18 +643,17 @@ MonoBehaviour:
   DestroyOnLasered: 0
   Lasered: 0
   LaseringObject: {fileID: 0}
---- !u!135 &135257830957405128
-SphereCollider:
+--- !u!114 &114704079594398192
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1674040937254722}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_GameObject: {fileID: 1195166286907530}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e84b6be6784434787f9e3a613e1231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135385309097002682
 SphereCollider:
   m_ObjectHideFlags: 1
