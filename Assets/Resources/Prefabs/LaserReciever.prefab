@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33195017591671586}
   - component: {fileID: 65333040996802130}
   - component: {fileID: 23335009810986854}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 33614545547152156}
   - component: {fileID: 65715930791790406}
   - component: {fileID: 23893994553824548}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TopArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 135385309097002682}
   - component: {fileID: 23891322355608648}
   - component: {fileID: 114704079594398192}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sphere
   m_TagString: Finish
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 33421382496084206}
   - component: {fileID: 65721768705656110}
   - component: {fileID: 23421785163060180}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BottomArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 33739154210375456}
   - component: {fileID: 23528510512386336}
   - component: {fileID: 64026701919389134}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: RecieverBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,8 +110,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4855971504363972}
-  - component: {fileID: 114539494288595598}
-  m_Layer: 0
+  - component: {fileID: 114144559304498700}
+  - component: {fileID: 135378599498456214}
+  - component: {fileID: 82670610783764806}
+  m_Layer: 12
   m_Name: LaserReciever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +131,7 @@ GameObject:
   - component: {fileID: 33789358902929736}
   - component: {fileID: 65361224849326436}
   - component: {fileID: 23987454450480410}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +149,7 @@ GameObject:
   - component: {fileID: 33995423874097778}
   - component: {fileID: 23399202233128674}
   - component: {fileID: 64658018288677144}
-  m_Layer: 2
+  m_Layer: 12
   m_Name: RecieverBase (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +562,7 @@ MeshCollider:
   m_GameObject: {fileID: 1630205361918446}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -574,7 +576,7 @@ MeshCollider:
   m_GameObject: {fileID: 1737088583176796}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -588,7 +590,7 @@ BoxCollider:
   m_GameObject: {fileID: 1132337772961392}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -600,7 +602,7 @@ BoxCollider:
   m_GameObject: {fileID: 1691520604334258}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -612,7 +614,7 @@ BoxCollider:
   m_GameObject: {fileID: 1171185461734404}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -624,11 +626,91 @@ BoxCollider:
   m_GameObject: {fileID: 1371969543625834}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114539494288595598
+--- !u!82 &82670610783764806
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1674040937254722}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &114144559304498700
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -636,13 +718,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1674040937254722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9aea71bf3a23d043b8cf0c84f7bb2e5, type: 3}
+  m_Script: {fileID: 11500000, guid: f2e84b6be6784434787f9e3a613e1231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsEndGoal: 0
-  DestroyOnLasered: 0
-  Lasered: 0
-  LaseringObject: {fileID: 0}
 --- !u!114 &114704079594398192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -654,6 +732,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e84b6be6784434787f9e3a613e1231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &135378599498456214
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1674040937254722}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135385309097002682
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -662,7 +752,7 @@ SphereCollider:
   m_GameObject: {fileID: 1195166286907530}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}

@@ -16,13 +16,18 @@ public class ReflectorObject : LaserEmittingObject, ILaserableObject, ITurnable
         Laser.laser.rotation = Quaternion.LookRotation(OutDir);
         Laser.Active = true;
         Ray beam = new Ray(hit.point, OutDir);
-        if (Physics.Raycast(beam, out hit,Mathf.Infinity))
+        if (Physics.Raycast(beam, out hit,Mathf.Infinity, LayerMask.GetMask("Emitter", "Level", "Receiver", "Mirror")))
         {
             Laser.laser.localScale = new Vector3(1, 1, Vector3.Distance(beam.origin, hit.point));
             ILaserableObject laserableObject = hit.collider.gameObject.GetComponent<ILaserableObject>();
             if (laserableObject != null)
             {
+                Debug.Log("Hit laserable object: " + hit.transform.name);
                 laserableObject.LaserHit(this, hit);
+            }
+            else
+            {
+                Debug.Log("Hit non-laserable object: " + hit.transform.name);
             }
         }
         else

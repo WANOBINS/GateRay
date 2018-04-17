@@ -25,13 +25,18 @@ public class EmitterObject : LaserEmittingObject, ITurnable
         Laser.laser.position = beam.origin + LaserOffest;
         Laser.laser.rotation = Quaternion.LookRotation(beam.direction);
         Laser.Active = true;
-        if(Physics.Raycast(beam,out hit,Mathf.Infinity))
+        if(Physics.Raycast(beam,out hit,Mathf.Infinity, LayerMask.GetMask("Emitter","Level","Receiver","Mirror")))
         {
             Laser.laser.localScale = new Vector3(1,1,Vector3.Distance(beam.origin, hit.point));
             ILaserableObject laserableObject = hit.collider.gameObject.GetComponent<ILaserableObject>();
             if (laserableObject != null)
             {
+                Debug.Log("Hit laserable object: " + hit.transform.name);
                 laserableObject.LaserHit(this, hit);
+            }
+            else
+            {
+                Debug.Log("Hit non-laserable object: " + hit.transform.name);
             }
         }
         else

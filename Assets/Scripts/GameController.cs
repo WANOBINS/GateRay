@@ -212,6 +212,7 @@ public class GameController : MonoBehaviour
         if (EarCameraObject)
         {
             BGMusicSource = EarCameraObject.AddComponent<AudioSource>();
+            BGMusicSource.volume = .5f;
             BGMusicSource.playOnAwake = false;
             BGMusicSource.loop = true;
             BGMusicSource.clip = BGMusic;

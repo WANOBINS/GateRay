@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33204815306116274}
   - component: {fileID: 23028004018673184}
   - component: {fileID: 64325542055500102}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Mirror Actual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 33822621149460036}
   - component: {fileID: 23689282055198336}
   - component: {fileID: 64923546254151396}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mirror TurnCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 33650181568132112}
   - component: {fileID: 23427171085444888}
   - component: {fileID: 64956341198970140}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Mirror Stand R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 33563495342049828}
   - component: {fileID: 23668414106883806}
   - component: {fileID: 64110327220053238}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Mirror Stand L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4235811534879266}
   - component: {fileID: 108693476269907716}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Mirror Accent Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 33283072949905062}
   - component: {fileID: 23476863464254978}
   - component: {fileID: 64854112823837492}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Mirror Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ MeshCollider:
   m_GameObject: {fileID: 1958073526741602}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0

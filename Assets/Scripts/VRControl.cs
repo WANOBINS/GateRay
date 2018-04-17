@@ -14,6 +14,7 @@ public class VRControl : MonoBehaviour
     #region Variables
 
     public float activationDistance = 2f;
+    public float speed = 1f;
 
     private GameController GameController;
     private Transform Floor;
@@ -33,6 +34,8 @@ public class VRControl : MonoBehaviour
     private LineRenderer LLine;
     private LineRenderer RLine;
 
+    private GameObject CamRig;
+
     private TeleportState teleportState = VRControl.TeleportState.Inactive;
 
     private enum TeleportState
@@ -45,6 +48,7 @@ public class VRControl : MonoBehaviour
 
     //Note: Turnables System only works for stationary turnables
     private List<ITurnable> Turnables;
+    private float stickDeadZone;
 
     public GameObject LeftObject
     {
@@ -102,7 +106,14 @@ public class VRControl : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Loading...");
-        GameObject CamRig = GameObject.Find("[CameraRig]");
+        CamRig = GameObject.Find("[CameraRig]");
+        CamRig.layer = LayerMask.NameToLayer("Player");
+        Rigidbody rb = CamRig.AddComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+        CapsuleCollider c = CamRig.AddComponent<CapsuleCollider>();
+        c.center = new Vector3(0,1,0);
+        c.radius = .5f;
+        c.height = 2;
         SteamVR_ControllerManager ControllerManager = CamRig.GetComponent<SteamVR_ControllerManager>();
         LeftObject = ControllerManager.left;
         RightObject = ControllerManager.right;
@@ -144,18 +155,18 @@ public class VRControl : MonoBehaviour
             //Turn controls only work when the game is in the Running and Main Menu phases
             if (GameController.GameState == State.Running || GameController.GameState == State.MainMenu)
             {
-                Debug.Log("Normal Input Active");
+                //Debug.Log("Normal Input Active");
                 Transform LNearest = GetNearestTurnable(LeftObject);
                 if (leftDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(LeftObject.transform.position, LNearest.position) <= activationDistance)
                 {
-                    Debug.Log("Attempting to turn " + LNearest + " left");
+                    //Debug.Log("Attempting to turn " + LNearest + " left");
                     LNearest.GetComponent<ITurnable>().TurnLeft();
                 }
 
                 Transform RNearest = GetNearestTurnable(RightObject);
                 if (rightDevice.GetPressDown(EVRButtonId.k_EButton_A) && Vector3.Distance(RightObject.transform.position, RNearest.position) <= activationDistance)
                 {
-                    Debug.Log("Attempting to turn " + RNearest + " right");
+                    //Debug.Log("Attempting to turn " + RNearest + " right");
                     RNearest.GetComponent<ITurnable>().TurnRight();
                 }
 
@@ -166,7 +177,7 @@ public class VRControl : MonoBehaviour
             }
             else if (GameController.GameState == State.Paused)
             {
-                Debug.Log("Menu Input Active");
+                //Debug.Log("Menu Input Active");
                 if (leftDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || rightDevice.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
                 {
                     GameController.ResumeGame();
@@ -176,6 +187,14 @@ public class VRControl : MonoBehaviour
                     GetComponent<UIManager>().SelectedButton.OnSubmit(new BaseEventData(GetComponent<UIManager>().SelectedButton.transform.parent.parent.GetComponent<EventSystem>()));
                 }
             }
+
+            Vector2 stickValue = leftDevice.GetAxis(EVRButtonId.k_EButton_SteamVR_Touchpad);
+            Vector3 movementValue = new Vector3(stickValue.x, 0, stickValue.y);
+                GameObject head = CamRig.transform.Find("Camera (eye)").gameObject;
+                movementValue = (head.transform.rotation * movementValue).normalized;
+                movementValue.y = 0;
+                movementValue.Normalize();
+                CamRig.GetComponent<Rigidbody>().velocity = movementValue * speed;
 
             //If TP system isn't resetting
             if (teleportState != TeleportState.Deactivating)
@@ -187,6 +206,7 @@ public class VRControl : MonoBehaviour
                     if (leftDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
                     {
                         teleportState = TeleportState.LTargeting;
+                        ShowArc(leftObject);
                         //Show Arc L
                     }
                     //If button is released and we're targeting left
@@ -199,6 +219,7 @@ public class VRControl : MonoBehaviour
                     if (rightDevice.GetPress(EVRButtonId.k_EButton_SteamVR_Touchpad))
                     {
                         teleportState = TeleportState.RTargeting;
+                        ShowArc(rightObject);
                         //Show Arc R
                     }
                     //If the button is released and we're targeting right
@@ -222,6 +243,13 @@ public class VRControl : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void ShowArc(GameObject Controller)
+    {
+        LineRenderer lineRenderer = Controller.GetComponent<LineRenderer>();
+        Vector3 ArcDir = Controller.transform.up;
+
     }
 
     #endregion Unity Methods
