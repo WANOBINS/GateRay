@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     private AudioClip _TurnSound;
     private AudioClip _WinSound;
     private GameObject MenuSuiteTemplate;
+    private int sceneCount = 3;
 
     private Material _WinMat;
     private GameObject MenuSuite;
@@ -104,16 +105,7 @@ public class GameController : MonoBehaviour
 
     public void FinishLevel()
     {
-        if(SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCount - 1)
-        {
-            GameState = State.End;
-            ShowEndMenu();
-        }
-        else
-        {
-            StartCoroutine(LoadNextLevel());
-            GameState = State.Loading;
-        }
+        StartCoroutine(LoadNextLevel());
     }
 
     private void ShowEndMenu()
@@ -126,15 +118,19 @@ public class GameController : MonoBehaviour
 
     private IEnumerator LoadNextLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount - 1)
+        if (SceneManager.GetActiveScene().buildIndex < sceneCount - 1)
         {
             GameState = State.Loading;
             yield return new WaitForSeconds(NextLevelDelay);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        if(SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCount - 1)
+        else if (SceneManager.GetActiveScene().buildIndex == sceneCount - 1)
         {
             ShowEndMenu();
+        }
+        else
+        {
+            throw new Exception("Oops, tried to load nonexistant scene");
         }
     }
 

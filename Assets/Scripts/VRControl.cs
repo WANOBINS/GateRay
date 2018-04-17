@@ -36,7 +36,7 @@ public class VRControl : MonoBehaviour
 
     private GameObject CamRig;
 
-    private TeleportState teleportState = VRControl.TeleportState.Inactive;
+    private TeleportState teleportState = TeleportState.Inactive;
 
     private enum TeleportState
     {
