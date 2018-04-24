@@ -17,7 +17,6 @@ public class VRControl : MonoBehaviour
     public float speed = 1f;
 
     private GameController GameController;
-    private Transform Floor;
     private List<Vector3> ArcPoints = new List<Vector3>();
 
     [SerializeField]
@@ -112,13 +111,12 @@ public class VRControl : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         CapsuleCollider c = CamRig.AddComponent<CapsuleCollider>();
         c.center = new Vector3(0,1,0);
-        c.radius = .5f;
+        c.radius = .1f;
         c.height = 2;
         SteamVR_ControllerManager ControllerManager = CamRig.GetComponent<SteamVR_ControllerManager>();
         LeftObject = ControllerManager.left;
         RightObject = ControllerManager.right;
         GameController = FindObjectOfType<GameController>();
-        Floor = GameObject.Find("Floor").transform;
 
         leftTrackedObject = LeftObject.GetComponent<SteamVR_TrackedObject>();
         rightTrackedObject = RightObject.GetComponent<SteamVR_TrackedObject>();

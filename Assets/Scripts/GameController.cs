@@ -126,11 +126,11 @@ public class GameController : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().buildIndex == sceneCount - 1)
         {
-            ShowEndMenu();
+            //ShowEndMenu();
         }
         else
         {
-            throw new Exception("Oops, tried to load nonexistant scene");
+            throw new Exception("Oops, tried to load nonexistent scene");
         }
     }
 
@@ -177,7 +177,12 @@ public class GameController : MonoBehaviour
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (GameObject.FindGameObjectsWithTag("GameController").Length > 1)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+            DontDestroyOnLoad(gameObject);
         GameState = State.MainMenu;
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         BGMusic = Resources.Load<AudioClip>("Audio/GRBackgroundMusic");

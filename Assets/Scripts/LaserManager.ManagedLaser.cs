@@ -15,7 +15,6 @@ public partial class LaserManager
                 active = laser.gameObject.activeSelf;
                 return active;
             }
-
             set
             {
                 laser.gameObject.SetActive(value);

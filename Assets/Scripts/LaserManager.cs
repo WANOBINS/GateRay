@@ -57,7 +57,7 @@ public partial class LaserManager : MonoBehaviour
         laserTemplate = Resources.Load<Transform>("Prefabs/Laser");
         if (!laserTemplate)
         {
-            throw new NullReferenceException("laserTemplate is not set");
+            throw new MissingReferenceException("laserTemplate is not set");
         }
     }
 
